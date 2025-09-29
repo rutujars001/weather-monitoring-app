@@ -1,0 +1,22 @@
+### Save a new weather reading for Korti
+POST http://localhost:3001/api/weather
+Content-Type: application/json
+
+{
+  "location": "Korti",
+  "temperature": 31.5,
+  "humidity": 65
+}
+
+### Save a new weather reading for Pandharpur
+POST http://localhost:3001/api/weather
+Content-Type: application/json
+
+{
+  "location": "Pandharpur",
+  "temperature": 32.2,
+  "humidity": 62
+}
+
+### Get the latest weather readings
+GET http://localhost:3001/api/weather/latest
