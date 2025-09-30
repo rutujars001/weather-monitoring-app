@@ -1,0 +1,50 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #586b81 0%, #7996b1 100%);
+  padding: 18px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.16);
+  color: #fff;
+}
+
+.nav-title h1 {
+  font-size: 2.1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.nav-subtitle {
+  display: block;
+  font-size: 1rem;
+  opacity: 0.88;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav-time {
+  font-size: 1.1rem;
+  opacity: 0.88;
+}
+
+.nav-refresh {
+  background: rgba(255,255,255,0.10);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.nav-refresh:hover {
+  background: rgba(255,255,255,0.3);
+}

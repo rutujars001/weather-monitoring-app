@@ -1,0 +1,105 @@
+.weather-card {
+  background: rgba(255,255,255,0.10);
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+  padding: 28px 38px 24px 38px;
+  margin: 32px 18px;
+  min-width: 460px;
+  max-width: 520px;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Distribute space between elements */
+  position: relative;
+  box-sizing: border-box;
+}
+
+.weather-location-card {
+  text-align: center;
+  width: 100%;
+}
+
+.weather-main-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.weather-icon {
+  font-size: 3.5rem;
+  margin-bottom: 4px;
+}
+
+.weather-temp {
+  font-size: 2.4rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.weather-desc {
+  font-size: 1.09rem;
+  opacity: 0.90;
+  text-align: center;
+  margin: 6px 0 10px 0;
+  width: 100%;
+}
+
+.weather-status {
+  background: rgba(255,255,255,0.20);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 7px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 1px 8px rgba(100,158,255,0.10);
+  text-align: center;
+  width: 100%;
+}
+
+.weather-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px 22px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.detail {
+  background: rgba(200,200,255,0.14);
+  border-radius: 7px;
+  padding: 10px 8px;
+  font-size: 1rem;
+  text-align: center;
+  margin: 0;
+}
+
+.detail span {
+  display: block;
+  margin-top: 2px;
+  font-size: 1.03rem;
+  font-weight: bold;
+  opacity: 0.89;
+}
+
+.details-button {
+  margin-top: 18px;
+  align-self: center;           /* Center the button horizontally */
+  padding: 10px 36px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #769cdc 0%, #5380c8 100%);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: .8px;
+  transition: background 0.18s, transform 0.18s;
+}
+
+.details-button:hover {
+  background: linear-gradient(90deg, #5380c8 40%, #769cdc 100%);
+  transform: scale(1.05);
+}
