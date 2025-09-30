@@ -1,29 +1,28 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./WeatherCard.css";
 
-const weatherIcons = {
-  "Partly Cloudy": "🌤️",
-  "Light Rain": "🌧️",
-  "Cloudy": "☁️",
-  "Rain": "🌧️",
-  "Sunny": "☀️"
+const sensorIcons = {
+  Rain: "🌧️",
+  Humidity: "💧",
+  Temperature: "🌡️",
+  Light: "💡",
 };
 
 function WeatherCard({
   location,
   time,
   temperature,
-  description,
-  rainMessage,
-  feelsLike,
   humidity,
-  wind,
-  uvIndex,
+  rain,
+  light,
+  description, // e.g. "Rainy"/"Clear"
   weatherType = "Sunny"
 }) {
-  // When Details button is clicked, navigate to details page
+  const navigate = useNavigate();
+
   const handleDetailsClick = () => {
-    window.location.href = `/details/${location.toLowerCase()}`;
+    navigate(`/details/${location.toLowerCase()}`);
   };
 
   return (
@@ -33,16 +32,17 @@ function WeatherCard({
         <span className="weather-time">{time}</span>
       </div>
       <div className="weather-main-card">
-        <span className="weather-icon">{weatherIcons[description] || "❓"}</span>
-        <span className="weather-temp">{temperature}°</span>
+        <span className="weather-icon">
+          {description === "Rainy" ? sensorIcons.Rain : (description === "Clear" ? sensorIcons.Light : sensorIcons.Temperature)}
+        </span>
+        <span className="weather-temp">{temperature}°C</span>
       </div>
       <span className="weather-desc">{description}</span>
-      <div className="weather-status">{rainMessage}</div>
       <div className="weather-details">
-        <div className="detail">🌡️ Feels Like<br /><span>{feelsLike}°</span></div>
-        <div className="detail">💧 Humidity<br /><span>{humidity}%</span></div>
-        <div className="detail">💨 Wind<br /><span>{wind} km/h</span></div>
-        <div className="detail">🌞 UV Index<br /><span>{uvIndex}</span></div>
+        <div className="detail">{sensorIcons.Rain} Rain<br /><span>{rain}</span></div>
+        <div className="detail">{sensorIcons.Humidity} Humidity<br /><span>{humidity}%</span></div>
+        <div className="detail">{sensorIcons.Light} Light<br /><span>{light}</span></div>
+        <div className="detail">{sensorIcons.Temperature} Temp<br /><span>{temperature}°C</span></div>
       </div>
       <button className="details-button" onClick={handleDetailsClick}>Details</button>
     </div>
