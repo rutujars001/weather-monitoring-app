@@ -1,0 +1,258 @@
+.ai-prediction-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  margin: 20px 0;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ai-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.model-badge {
+  background: rgba(102, 126, 234, 0.3);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.prediction-summary {
+  margin: 20px 0;
+}
+
+.prediction-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.probability {
+  text-align: center;
+}
+
+.percentage {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #4fc3f7, #29b6f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.label, .confidence-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.confidence {
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid;
+}
+
+.confidence.high {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.2);
+}
+
+.confidence.medium {
+  border-color: #ff9800;
+  background: rgba(255, 152, 0, 0.2);
+}
+
+.confidence.low {
+  border-color: #f44336;
+  background: rgba(244, 67, 54, 0.2);
+}
+
+.confidence-level {
+  display: block;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.intensity-badge {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 20px;
+  margin: 10px 0;
+  font-size: 0.9rem;
+}
+
+.hourly-forecast {
+  margin: 25px 0;
+}
+
+.forecast-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 120px;
+  margin: 15px 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin: 0 3px;
+}
+
+.hour {
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+  opacity: 0.8;
+}
+
+.prob-bar {
+  width: 20px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.prob-fill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-radius: 10px;
+  transition: height 0.3s ease;
+}
+
+.prob-bar.high .prob-fill {
+  background: linear-gradient(to top, #4caf50, #81c784);
+}
+
+.prob-bar.medium .prob-fill {
+  background: linear-gradient(to top, #ff9800, #ffb74d);
+}
+
+.prob-bar.low .prob-fill {
+  background: linear-gradient(to top, #f44336, #ef5350);
+}
+
+.prob-text {
+  font-size: 0.7rem;
+  margin-top: 5px;
+  opacity: 0.9;
+}
+
+.ai-factors {
+  margin: 20px 0;
+}
+
+.factors-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.factor {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.factor-name {
+  text-transform: capitalize;
+  opacity: 0.9;
+}
+
+.factor-value {
+  font-weight: bold;
+  color: #4fc3f7;
+}
+
+.ai-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.loading-dots {
+  animation: pulse 2s infinite;
+}
+
+.error-text {
+  color: #ff6b6b;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.retry-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.retry-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@media (max-width: 768px) {
+  .ai-prediction-card {
+    padding: 15px;
+    margin: 15px 0;
+  }
+  
+  .prediction-main {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .factors-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ai-footer {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}

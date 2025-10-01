@@ -1,10 +1,68 @@
 # Dependencies
-/node_modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Environment variables (if you add any later)
+# Production builds
+/frontend/build
+/backend/dist
+
+# Environment variables
 .env
-# Create or edit .gitignore in your root directory
-echo backend/node_modules/ >> .gitignore
-echo backend/.env >> .gitignore
-echo backend/package-lock.json >> .gitignore
-dir backend\.git /ah
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database
+*.db
+*.sqlite
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary folders
+tmp/
+temp/

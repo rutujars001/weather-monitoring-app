@@ -133,3 +133,46 @@
     min-width: 120px;
   }
 }
+
+.chart-error-banner {
+  background: rgba(255, 152, 0, 0.9);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.chart-error-banner button {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.chart-error-banner button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.data-source {
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.8);
+  margin-top: 15px;
+  font-style: italic;
+}
+
+.confidence-badge {
+  transition: all 0.3s ease;
+}
+
+.confidence-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
