@@ -3,3 +3,8 @@
 
 # Environment variables (if you add any later)
 .env
+# Create or edit .gitignore in your root directory
+echo backend/node_modules/ >> .gitignore
+echo backend/.env >> .gitignore
+echo backend/package-lock.json >> .gitignore
+dir backend\.git /ah
