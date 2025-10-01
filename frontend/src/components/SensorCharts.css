@@ -1,0 +1,135 @@
+.sensor-charts-container {
+  margin-top: 30px;
+  padding: 0 20px;
+}
+
+.chart-section {
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.chart-section h3 {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.chart-wrapper {
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.prediction-chart {
+  margin-bottom: 20px;
+}
+
+.prediction-info {
+  margin-top: 20px;
+}
+
+.prediction-info h4 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 0 0 15px 0;
+  text-align: center;
+}
+
+.confidence-indicators {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.confidence-badge {
+  background: rgba(255,255,255,0.1);
+  padding: 10px 15px;
+  border-radius: 12px;
+  text-align: center;
+  border-left: 4px solid;
+  min-width: 80px;
+}
+
+.confidence-badge.high {
+  border-left-color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.confidence-badge.medium {
+  border-left-color: #ff9800;
+  background: rgba(255, 152, 0, 0.1);
+}
+
+.confidence-badge.low {
+  border-left-color: #f44336;
+  background: rgba(244, 67, 54, 0.1);
+}
+
+.confidence-badge .time {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.confidence-badge .confidence {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 2px;
+}
+
+.confidence-badge .probability {
+  display: block;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sensor-charts-container {
+    padding: 0 15px;
+  }
+  
+  .chart-section {
+    padding: 20px 15px;
+  }
+  
+  .chart-section h3 {
+    font-size: 1.2rem;
+  }
+  
+  .confidence-indicators {
+    gap: 10px;
+  }
+  
+  .confidence-badge {
+    min-width: 70px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-section h3 {
+    font-size: 1.1rem;
+  }
+  
+  .confidence-indicators {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .confidence-badge {
+    min-width: 120px;
+  }
+}

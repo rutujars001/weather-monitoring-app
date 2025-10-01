@@ -1,0 +1,100 @@
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #fff;
+}
+
+.loading-spinner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.loading-spinner.small {
+  width: 40px;
+  height: 40px;
+}
+
+.loading-spinner.medium {
+  width: 60px;
+  height: 60px;
+}
+
+.loading-spinner.large {
+  width: 80px;
+  height: 80px;
+}
+
+.spinner-ring {
+  position: absolute;
+  border: 2px solid transparent;
+  border-top: 2px solid rgba(255,255,255,0.8);
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+}
+
+.loading-spinner.small .spinner-ring {
+  width: 40px;
+  height: 40px;
+}
+
+.loading-spinner.medium .spinner-ring {
+  width: 60px;
+  height: 60px;
+}
+
+.loading-spinner.large .spinner-ring {
+  width: 80px;
+  height: 80px;
+}
+
+.spinner-ring:nth-child(1) {
+  animation-delay: 0s;
+  border-top-color: #667eea;
+}
+
+.spinner-ring:nth-child(2) {
+  animation-delay: 0.5s;
+  border-top-color: #764ba2;
+  transform: scale(0.8);
+}
+
+.spinner-ring:nth-child(3) {
+  animation-delay: 1s;
+  border-top-color: #4fc3f7;
+  transform: scale(0.6);
+}
+
+.weather-icon {
+  font-size: 1.5rem;
+  animation: pulse 2s ease-in-out infinite;
+  z-index: 10;
+}
+
+.loading-message {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  opacity: 0.9;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.5; }
+}

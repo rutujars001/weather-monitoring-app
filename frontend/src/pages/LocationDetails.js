@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import SensorCharts from "../components/SensorCharts";
 import "./LocationDetails.css";
 
 const sampleWeather = {
@@ -190,6 +191,9 @@ function LocationDetails() {
           </div>
         </div>
       </div>
+
+      {/* Interactive Charts Section */}
+      <SensorCharts location={location} />
 
       {/* Go Back Button */}
       <button className="go-back-button" onClick={handleGoBack}>

@@ -1,0 +1,68 @@
+.error-container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #fff;
+}
+
+.error-content {
+  text-align: center;
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 40px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.1);
+  max-width: 400px;
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.error-content h2 {
+  font-size: 1.5rem;
+  margin: 0 0 15px 0;
+  color: #ff6b6b;
+}
+
+.error-content p {
+  font-size: 1rem;
+  margin: 0 0 25px 0;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.retry-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.retry-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.error-details {
+  margin-top: 20px;
+  padding: 10px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+}
+
+.error-details small {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.8rem;
+}

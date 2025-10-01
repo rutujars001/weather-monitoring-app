@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import WeatherCard from "./components/WeatherCard";
+import RouteMap from "./components/RouteMap";
+import AlertSystem from "./components/AlertSystem";
+import LoadingSpinner from "./components/LoadingSpinner";
+import ErrorBoundary from "./components/ErrorBoundary";
 import LocationDetails from "./pages/LocationDetails";
 import "./App.css";
 
@@ -29,35 +33,69 @@ const pandharpurData = {
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setIsLoaded(true), 200);
+    // Simulate initial data loading
+    setTimeout(() => {
+      setIsLoaded(true);
+      setIsInitialLoad(false);
+    }, 1500);
   }, []);
 
-  return (
-    <Router>
+  const handleLocationClick = (location) => {
+    console.log('Map location clicked:', location);
+  };
+
+  if (isInitialLoad) {
+    return (
       <div className="App">
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <div className="landing-container">
-                <div className="hero-section">
-                  <h1 className="hero-title">Weather Monitoring System</h1>
-                  <p className="hero-subtitle">Korti ↔ Pandharpur Environmental Data</p>
-                </div>
-                <div className={`cards-container ${isLoaded ? 'loaded' : ''}`}>
-                  <WeatherCard {...kortiData} />
-                  <WeatherCard {...pandharpurData} />
-                </div>
-              </div>
-            }
+        <div className="initial-loading">
+          <LoadingSpinner 
+            size="large" 
+            message="Initializing Weather Monitoring System..." 
           />
-          <Route path="/details/:location" element={<LocationDetails />} />
-        </Routes>
+        </div>
       </div>
-    </Router>
+    );
+  }
+
+  return (
+    <ErrorBoundary>
+      <Router>
+        <div className="App">
+          <Navbar />
+          
+          {/* Alert System */}
+          <AlertSystem />
+          
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div className="landing-container">
+                  {/* Hero Section */}
+                  <div className="hero-section">
+                    <h1 className="hero-title">Weather Monitoring System</h1>
+                    <p className="hero-subtitle">Korti ↔ Pandharpur Environmental Data</p>
+                  </div>
+                  
+                  {/* Weather Cards */}
+                  <div className={`cards-container ${isLoaded ? 'loaded' : ''}`}>
+                    <WeatherCard {...kortiData} />
+                    <WeatherCard {...pandharpurData} />
+                  </div>
+                  
+                  {/* Route Map */}
+                  <RouteMap onLocationClick={handleLocationClick} />
+                </div>
+              }
+            />
+            <Route path="/details/:location" element={<LocationDetails />} />
+          </Routes>
+        </div>
+      </Router>
+    </ErrorBoundary>
   );
 }
 
