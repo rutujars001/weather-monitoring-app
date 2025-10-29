@@ -8,8 +8,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  AreaChart,
-  Area,
   BarChart,
   Bar
 } from 'recharts';
@@ -83,10 +81,10 @@ function SensorCharts({ location }) {
           }),
           temperature: reading.readings.temperature.value,
           humidity: reading.readings.humidity.value,
-          lightIntensity: reading.readings.lightIntensity.value,
           rainfall: reading.readings.rainfall.detected ? 
             (reading.readings.rainfall.intensity === 'heavy' ? 30 : 
              reading.readings.rainfall.intensity === 'moderate' ? 20 : 10) : 0
+          // lightIntensity removed!
         }))
         .reverse(); // Chronological order
 
@@ -99,17 +97,17 @@ function SensorCharts({ location }) {
       console.error('❌ Error loading chart data:', error);
       setError('Unable to load real-time data');
       
-      // Fallback mock data
+      // Fallback mock data (lightIntensity removed)
       const mockData = location.toLowerCase() === 'korti' ? [
-        { hour: '12:00', temperature: 32, humidity: 60, lightIntensity: 280, rainfall: 0 },
-        { hour: '15:00', temperature: 35, humidity: 55, lightIntensity: 320, rainfall: 0 },
-        { hour: '18:00', temperature: 31, humidity: 68, lightIntensity: 180, rainfall: 5 },
-        { hour: '21:00', temperature: 29, humidity: 72, lightIntensity: 50, rainfall: 15 }
+        { hour: '12:00', temperature: 32, humidity: 60, rainfall: 0 },
+        { hour: '15:00', temperature: 35, humidity: 55, rainfall: 0 },
+        { hour: '18:00', temperature: 31, humidity: 68, rainfall: 5 },
+        { hour: '21:00', temperature: 29, humidity: 72, rainfall: 15 }
       ] : [
-        { hour: '12:00', temperature: 29, humidity: 70, lightIntensity: 250, rainfall: 25 },
-        { hour: '15:00', temperature: 31, humidity: 68, lightIntensity: 280, rainfall: 30 },
-        { hour: '18:00', temperature: 28, humidity: 75, lightIntensity: 150, rainfall: 35 },
-        { hour: '21:00', temperature: 27, humidity: 78, lightIntensity: 40, rainfall: 40 }
+        { hour: '12:00', temperature: 29, humidity: 70, rainfall: 25 },
+        { hour: '15:00', temperature: 31, humidity: 68, rainfall: 30 },
+        { hour: '18:00', temperature: 28, humidity: 75, rainfall: 35 },
+        { hour: '21:00', temperature: 27, humidity: 78, rainfall: 40 }
       ];
       
       setHistoricalData(mockData);
@@ -177,42 +175,6 @@ function SensorCharts({ location }) {
         </div>
       </div>
 
-      {/* Light Intensity */}
-      <div className="chart-section">
-        <h3>💡 Light Intensity Pattern (Live Sensor Data)</h3>
-        <div className="chart-wrapper">
-          <ResponsiveContainer width="100%" height={250}>
-            <AreaChart data={historicalData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.2)" />
-              <XAxis dataKey="hour" stroke="#fff" fontSize={12} />
-              <YAxis stroke="#fff" fontSize={12} />
-              <Tooltip 
-                contentStyle={{
-                  backgroundColor: 'rgba(0,0,0,0.8)',
-                  border: 'none',
-                  borderRadius: '8px',
-                  color: '#fff'
-                }}
-              />
-              <Area 
-                type="monotone" 
-                dataKey="lightIntensity" 
-                stroke="#fdd835" 
-                fill="url(#lightGradient)"
-                strokeWidth={2}
-                name="Light Intensity (lux)"
-              />
-              <defs>
-                <linearGradient id="lightGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#fdd835" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#fdd835" stopOpacity={0.1}/>
-                </linearGradient>
-              </defs>
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
       {/* AI Rainfall Prediction */}
       <div className="chart-section">
         <h3>🌧️ AI Rainfall Prediction (Next 6 Hours)</h3>
@@ -265,7 +227,6 @@ function SensorCharts({ location }) {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

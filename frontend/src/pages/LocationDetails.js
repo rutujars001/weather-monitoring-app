@@ -26,21 +26,21 @@ function LocationDetails() {
   const loadLocationData = async (silent = false) => {
     try {
       if (!silent) setLoading(true);
-      
+
       console.log(`📍 Loading data for location: ${location}`);
       const response = await weatherAPI.getLocationByName(location);
-      
+
       setLocationData(response.data.data);
       setError(null);
       setLastUpdated(new Date());
-      
+
       console.log('✅ Location data loaded successfully');
-      
+
     } catch (error) {
       console.error('❌ Error loading location details:', error);
       setError('Unable to load real-time data from server');
-      
-      // Provide fallback data structure
+
+      // Provide fallback data structure (lightIntensity removed)
       const fallbackData = {
         location: {
           name: location.charAt(0).toUpperCase() + location.slice(1),
@@ -53,7 +53,6 @@ function LocationDetails() {
           readings: {
             temperature: { value: location.toLowerCase() === 'korti' ? 31 : 28, unit: 'C' },
             humidity: { value: location.toLowerCase() === 'korti' ? 68 : 75, unit: '%' },
-            lightIntensity: { value: location.toLowerCase() === 'korti' ? 120 : 95, unit: 'lux' },
             rainfall: { 
               detected: location.toLowerCase() === 'pandharpur', 
               intensity: location.toLowerCase() === 'pandharpur' ? 'light' : 'none' 
@@ -64,9 +63,9 @@ function LocationDetails() {
         historicalData: [],
         dataCount: 0
       };
-      
+
       setLocationData(fallbackData);
-      
+
     } finally {
       if (!silent) setLoading(false);
     }
@@ -74,11 +73,11 @@ function LocationDetails() {
 
   const getWeatherIcon = (reading) => {
     if (!reading) return '❓';
-    
+
     const temp = reading.readings.temperature.value;
     const humidity = reading.readings.humidity.value;
     const isRaining = reading.readings.rainfall.detected;
-    
+
     if (isRaining) return '🌧️';
     if (humidity > 80) return '☁️';
     if (temp > 35) return '☀️';
@@ -88,11 +87,11 @@ function LocationDetails() {
 
   const getConditionDescription = (reading) => {
     if (!reading) return 'No data';
-    
+
     const temp = reading.readings.temperature.value;
     const humidity = reading.readings.humidity.value;
     const isRaining = reading.readings.rainfall.detected;
-    
+
     if (isRaining) return `Rainy, ${temp}°C`;
     if (humidity > 80 && temp < 30) return `Humid & Cool, ${temp}°C`;
     if (temp > 35) return `Hot & Sunny, ${temp}°C`;
@@ -180,7 +179,6 @@ function LocationDetails() {
                  latestReading.readings.temperature.value > 20 ? 'Cool' : 'Cold'}
               </div>
             </div>
-            
             <div className="condition-card humidity">
               <div className="condition-icon">💧</div>
               <div className="condition-value">
@@ -193,20 +191,6 @@ function LocationDetails() {
                  latestReading.readings.humidity.value > 40 ? 'Moderate' : 'Dry'}
               </div>
             </div>
-            
-            <div className="condition-card light">
-              <div className="condition-icon">☀️</div>
-              <div className="condition-value">
-                {latestReading.readings.lightIntensity.value}
-              </div>
-              <div className="condition-label">Light Intensity (lux)</div>
-              <div className="condition-status">
-                {latestReading.readings.lightIntensity.value > 300 ? 'Very Bright' :
-                 latestReading.readings.lightIntensity.value > 150 ? 'Bright' :
-                 latestReading.readings.lightIntensity.value > 50 ? 'Dim' : 'Dark'}
-              </div>
-            </div>
-            
             <div className="condition-card rainfall">
               <div className="condition-icon">
                 {latestReading.readings.rainfall.detected ? '🌧️' : '☀️'}
@@ -236,7 +220,7 @@ function LocationDetails() {
             </button>
           </div>
         )}
-        
+
         {latestReading && (
           <div className="reading-timestamp">
             🕐 Sensor reading from: {new Date(latestReading.timestamp).toLocaleString()}
@@ -270,7 +254,6 @@ function LocationDetails() {
               <span>{locationInfo.name}</span>
             </div>
           </div>
-          
           <div className="info-item">
             <span className="info-icon">🗺️</span>
             <div className="info-content">
@@ -281,7 +264,6 @@ function LocationDetails() {
               </span>
             </div>
           </div>
-          
           <div className="info-item">
             <span className="info-icon">📊</span>
             <div className="info-content">
@@ -289,7 +271,6 @@ function LocationDetails() {
               <span>{locationData.dataCount || locationData.historicalData?.length || 0} readings</span>
             </div>
           </div>
-          
           <div className="info-item">
             <span className="info-icon">🔄</span>
             <div className="info-content">
@@ -297,7 +278,6 @@ function LocationDetails() {
               <span>Every 5 minutes</span>
             </div>
           </div>
-          
           <div className="info-item">
             <span className="info-icon">🎯</span>
             <div className="info-content">
@@ -305,7 +285,6 @@ function LocationDetails() {
               <span className="status active">🟢 Online & Active</span>
             </div>
           </div>
-          
           <div className="info-item">
             <span className="info-icon">🤖</span>
             <div className="info-content">

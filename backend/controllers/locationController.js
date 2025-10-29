@@ -1,11 +1,10 @@
 const Location = require('../models/Location');
-const SensorData = require('../models/SensorData');
+const SensorData = require('../models/SensorData'); // Fixed: lowercase file name, matches export in your model
 
 // Get all locations with latest sensor data
 const getAllLocations = async (req, res) => {
   try {
     const locations = await Location.find({ isActive: true });
-    
     // Get latest sensor data for each location
     const locationsWithData = await Promise.all(
       locations.map(async (location) => {
@@ -26,7 +25,6 @@ const getAllLocations = async (req, res) => {
             temperature: latestData.readings.temperature.value,
             humidity: latestData.readings.humidity.value,
             rainfall: latestData.readings.rainfall,
-            lightIntensity: latestData.readings.lightIntensity.value,
             timestamp: latestData.timestamp,
             dataQuality: latestData.dataQuality
           } : null
@@ -53,14 +51,12 @@ const getAllLocations = async (req, res) => {
 const getLocationById = async (req, res) => {
   try {
     const location = await Location.findById(req.params.id);
-    
     if (!location) {
       return res.status(404).json({
         success: false,
         message: 'Location not found'
       });
     }
-
     // Get latest 10 readings for this location
     const recentReadings = await SensorData.find({ 
       location: location._id 
@@ -92,14 +88,12 @@ const getLocationByName = async (req, res) => {
     const location = await Location.findOne({ 
       name: new RegExp(locationName, 'i')
     });
-    
     if (!location) {
       return res.status(404).json({
         success: false,
         message: `Location '${req.params.name}' not found`
       });
     }
-
     // Get latest reading and historical data (last 24 hours)
     const latestReading = await SensorData.findOne({ 
       location: location._id 
@@ -133,16 +127,13 @@ const getLocationByName = async (req, res) => {
 const createLocation = async (req, res) => {
   try {
     const { name, coordinates, description, deviceId } = req.body;
-
     const location = new Location({
       name,
       coordinates,
       description,
       deviceId
     });
-
     const savedLocation = await location.save();
-
     res.status(201).json({
       success: true,
       message: 'Location created successfully',

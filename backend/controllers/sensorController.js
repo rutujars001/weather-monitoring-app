@@ -5,43 +5,43 @@ const Alert = require('../models/Alert');
 // Receive sensor data from IoT devices
 const postSensorData = async (req, res) => {
   try {
-    const { deviceId, temperature, humidity, rainfall, lightIntensity } = req.body;
+    const { location, deviceId, readings, timestamp, dataQuality } = req.body;
     const io = req.app.get('io');
 
-    // Find location by device ID
-    const location = await Location.findOne({ deviceId, isActive: true });
-    
-    if (!location) {
-      return res.status(404).json({
+    // Validate readings structure
+    if (
+      !readings ||
+      !readings.temperature ||
+      typeof readings.temperature.value !== "number" ||
+      !readings.humidity ||
+      typeof readings.humidity.value !== "number"
+    ) {
+      return res.status(400).json({
         success: false,
-        message: `Location not found for device ID: ${deviceId}`
+        message: 'Invalid readings object: temperature and humidity required with .value fields'
       });
+    }
+
+    // Accept location if already ObjectId, else look up by deviceId fallback
+    let dbLocation = location;
+    if (!dbLocation) {
+      const locObj = await Location.findOne({ deviceId, isActive: true });
+      if (!locObj) {
+        return res.status(404).json({
+          success: false,
+          message: `Location not found for device ID: ${deviceId}`
+        });
+      }
+      dbLocation = locObj._id;
     }
 
     // Create sensor data entry
     const sensorData = new SensorData({
-      location: location._id,
+      location: dbLocation,
       deviceId,
-      readings: {
-        temperature: {
-          value: temperature,
-          unit: 'C'
-        },
-        humidity: {
-          value: humidity,
-          unit: '%'
-        },
-        rainfall: {
-          detected: rainfall > 0,
-          intensity: rainfall > 20 ? 'heavy' : rainfall > 10 ? 'moderate' : rainfall > 0 ? 'light' : 'none'
-        },
-        lightIntensity: {
-          value: lightIntensity,
-          unit: 'lux'
-        }
-      },
-      timestamp: new Date(),
-      dataQuality: 'good'
+      readings,
+      timestamp: timestamp ? new Date(timestamp) : new Date(),
+      dataQuality: dataQuality || 'good'
     });
 
     const savedData = await sensorData.save();
@@ -49,14 +49,14 @@ const postSensorData = async (req, res) => {
 
     // Emit real-time data to connected clients
     io.emit('sensor-update', {
-      locationName: location.name,
+      locationName: savedData.location.name,
       deviceId,
       readings: savedData.readings,
       timestamp: savedData.timestamp
     });
 
     // Check for alert conditions (simple rainfall prediction)
-    await checkAlertConditions(location, savedData, io);
+    await checkAlertConditions(savedData.location, savedData, io);
 
     res.status(201).json({
       success: true,
@@ -73,11 +73,11 @@ const postSensorData = async (req, res) => {
   }
 };
 
-// Get latest readings from all locations
+// Get latest readings from all locations (unchanged)
 const getLatestReadings = async (req, res) => {
   try {
     const locations = await Location.find({ isActive: true });
-    
+
     const latestReadings = await Promise.all(
       locations.map(async (location) => {
         const latestData = await SensorData.findOne({ 
@@ -85,7 +85,6 @@ const getLatestReadings = async (req, res) => {
         })
         .sort({ timestamp: -1 })
         .populate('location');
-
         return latestData;
       })
     );
@@ -108,21 +107,20 @@ const getLatestReadings = async (req, res) => {
   }
 };
 
-// Get historical data for specific location
+// Get historical data for specific location (unchanged)
 const getHistoricalData = async (req, res) => {
   try {
     const { locationId } = req.params;
     const { hours = 24, limit = 100 } = req.query;
 
     const startTime = new Date(Date.now() - (hours * 60 * 60 * 1000));
-    
     const historicalData = await SensorData.find({
       location: locationId,
       timestamp: { $gte: startTime }
     })
-    .sort({ timestamp: -1 })
-    .limit(parseInt(limit))
-    .populate('location');
+      .sort({ timestamp: -1 })
+      .limit(parseInt(limit))
+      .populate('location');
 
     // Group data by hour for charting
     const groupedData = groupDataByHour(historicalData);
@@ -144,15 +142,14 @@ const getHistoricalData = async (req, res) => {
   }
 };
 
-// Simple alert condition checker
+// Simple alert condition checker (unchanged)
 const checkAlertConditions = async (location, sensorData, io) => {
   try {
     const { temperature, humidity, rainfall } = sensorData.readings;
-    
     // Simple rainfall prediction logic
     if (humidity.value > 80 && temperature.value < 30 && !rainfall.detected) {
       const alert = new Alert({
-        location: location._id,
+        location: location._id ? location._id : location,
         type: 'rainfall_prediction',
         severity: 'medium',
         message: `Rain expected at ${location.name} - High humidity (${humidity.value}%) detected`,
@@ -165,7 +162,7 @@ const checkAlertConditions = async (location, sensorData, io) => {
       });
 
       await alert.save();
-      
+
       // Emit alert to frontend
       io.emit('new-alert', {
         locationName: location.name,
@@ -180,13 +177,13 @@ const checkAlertConditions = async (location, sensorData, io) => {
   }
 };
 
-// Helper function to group data by hour
+// Helper function to group data by hour (unchanged)
 const groupDataByHour = (data) => {
   const grouped = {};
   
   data.forEach(reading => {
     const hour = new Date(reading.timestamp).toISOString().slice(0, 14) + '00:00.000Z';
-    
+
     if (!grouped[hour]) {
       grouped[hour] = {
         hour: new Date(hour).toLocaleTimeString('en-US', { 
@@ -202,7 +199,8 @@ const groupDataByHour = (data) => {
     
     grouped[hour].temperature.push(reading.readings.temperature.value);
     grouped[hour].humidity.push(reading.readings.humidity.value);
-    grouped[hour].lightIntensity.push(reading.readings.lightIntensity.value);
+    if (reading.readings.lightIntensity)
+      grouped[hour].lightIntensity.push(reading.readings.lightIntensity.value);
   });
 
   // Calculate averages
@@ -210,7 +208,7 @@ const groupDataByHour = (data) => {
     hour: group.hour,
     temperature: Math.round(group.temperature.reduce((a, b) => a + b, 0) / group.temperature.length),
     humidity: Math.round(group.humidity.reduce((a, b) => a + b, 0) / group.humidity.length),
-    lightIntensity: Math.round(group.lightIntensity.reduce((a, b) => a + b, 0) / group.lightIntensity.length)
+    lightIntensity: group.lightIntensity.length ? Math.round(group.lightIntensity.reduce((a, b) => a + b, 0) / group.lightIntensity.length) : null
   })).reverse(); // Most recent first
 };
 

@@ -26,11 +26,8 @@ const sensorDataSchema = new mongoose.Schema({
         enum: ['none', 'light', 'moderate', 'heavy'],
         default: 'none'
       }
-    },
-    lightIntensity: {
-      value: { type: Number, required: true },
-      unit: { type: String, default: 'lux' }
     }
+    // Add more fields to readings if needed
   },
   timestamp: {
     type: Date,
@@ -45,8 +42,8 @@ const sensorDataSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Indexes for efficient queries
 sensorDataSchema.index({ location: 1, timestamp: -1 });
 sensorDataSchema.index({ deviceId: 1 });
 
+// THIS IS CRITICAL!
 module.exports = mongoose.model('SensorData', sensorDataSchema);

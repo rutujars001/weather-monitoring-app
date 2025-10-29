@@ -75,13 +75,8 @@ const seedDatabase = async () => {
             rainfall: {
               detected: Math.random() > 0.7, // 30% chance of rain
               intensity: ['none', 'light', 'moderate'][Math.floor(Math.random() * 3)]
-            },
-            lightIntensity: {
-              value: timestamp.getHours() >= 6 && timestamp.getHours() <= 18 ?
-                Math.round(50 + Math.random() * 300) : // Daylight: 50-350 lux
-                Math.round(Math.random() * 50),        // Night: 0-50 lux
-              unit: 'lux'
             }
+            // lightIntensity REMOVED COMPLETELY
           },
           timestamp,
           dataQuality: ['excellent', 'good', 'fair'][Math.floor(Math.random() * 3)]

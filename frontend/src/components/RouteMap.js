@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './RouteMap.css';
@@ -20,10 +20,10 @@ const weatherStationIcon = new L.Icon({
   popupAnchor: [0, -40]
 });
 
-// Real coordinates with actual road route
+// Real coordinates with actual road route (update this array from GPX/KML if needed)
 const routeData = {
   path: [
-    [17.686944, 75.243333], // Korti (SKN Sinhgad College)
+    [17.686944, 75.243333], // Korti
     [17.686800, 75.245000], // Exit Korti
     [17.685000, 75.248000], // Road junction
     [17.683000, 75.251000], // Main road
@@ -31,7 +31,7 @@ const routeData = {
     [17.677000, 75.257000], // Midway point
     [17.674000, 75.260000], // Approaching Pandharpur
     [17.671000, 75.262000], // Pandharpur outskirts
-    [17.669444, 75.264444]  // Pandharpur (Vitthal Temple)
+    [17.669444, 75.264444]  // Pandharpur
   ],
   locations: [
     {
@@ -42,7 +42,6 @@ const routeData = {
         temperature: 31,
         humidity: 68,
         rain: "Expected in 15 mins",
-        light: "Low",
         status: "active"
       }
     },
@@ -54,7 +53,6 @@ const routeData = {
         temperature: 28,
         humidity: 75,
         rain: "Ongoing",
-        light: "Medium",
         status: "active"
       }
     }
@@ -84,19 +82,13 @@ function RouteMap({ onLocationClick }) {
           zoom={12}
           className="route-map"
         >
-          {/* High-quality tile layer (Google Maps style) */}
+          {/* Tile layer */}
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           
-          {/* Alternative: Satellite view */}
-          {/* <TileLayer
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-            attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
-          /> */}
-          
-          {/* Route path */}
+          {/* Actual route polyline */}
           <Polyline
             positions={routeData.path}
             pathOptions={{
@@ -133,10 +125,6 @@ function RouteMap({ onLocationClick }) {
                     <div className="reading">
                       <span className="icon">🌧️</span>
                       <span>{location.data.rain}</span>
-                    </div>
-                    <div className="reading">
-                      <span className="icon">💡</span>
-                      <span>{location.data.light}</span>
                     </div>
                   </div>
                   <div className={`status ${location.data.status}`}>
